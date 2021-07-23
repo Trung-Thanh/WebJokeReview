@@ -1,0 +1,68 @@
+﻿@model IEnumerable<WebJokeReview.Models.Joke>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    if (!(ViewBag.SearchPhrase is null))
+    {
+        <h1>Search results of "@ViewBag.SearchPhrase" are:</h1>
+    }
+    else
+    {
+        <h1>Joke list:</h1>
+    }
+}
+<body onload="myFunction();">
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.jokeQuestion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.userName)
+                </th>
+                <th>
+                    Author
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.jokeQuestion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.userName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+
+
+@{
+    if (ViewBag.IsEnableToDelete == false || ViewBag.IsEnableToEdit == false)
+    {
+        <script>
+            function myFunction() {
+                alert('you are not the author so you can edit ot delete this joke !');
+            }
+        </script>
+    }
+}
+
